@@ -354,4 +354,33 @@ Bilgisayarında bir klasör aç ve şu komutları sırasıyla çalıştır:
    git branch -M main
    git push -u origin main# 1. Gerekli paketleri hızlıca kur (Eksik varsa tamamlar)
 npm install 
+import React, { useEffect } from 'react';
+import { View, Button } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
+const App = () => {
+  // Token saklama
+  const saveToken = async () => {
+    await SecureStore.setItemAsync('userToken', 'benimToken123');
+    console.log('Token kaydedildi.');
+  };
+
+  // Token okuma
+  const getToken = async () => {
+    const token = await SecureStore.getItemAsync('userToken');
+    console.log('Token:', token);
+  };
+
+  // Uygulama açıldığında token kaydedilsin
+  useEffect(() => {
+    saveToken();
+  }, []);
+
+  return (
+    <View style={{ marginTop: 50 }}>
+      <Button title="Tokeni Göster" onPress={getToken} />
+    </View>
+  );
+};
+
+export default App;
